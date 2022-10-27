@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - id: ssh
-        uses: mnival/ssh-action@main
+        uses: mnival/ssh-action@v0.0.1
         with:
         ssh_host: ${{ secrets.SSH_HOST }}
         ssh_user: ${{ secrets.SSH_USER }}
@@ -28,14 +28,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - id: ssh-foo
-        uses: mnival/ssh-action@main
+        uses: mnival/ssh-action@v0.0.1
         with:
         ssh_host: ${{ secrets.SSH_FOO_HOST }}
         ssh_user: ${{ secrets.SSH_FOO_USER }}
         ssh_key: ${{ secrets.SSH_FOO_KEY }}
 
       - id: ssh-bar
-        uses: mnival/ssh-action@main
+        uses: mnival/ssh-action@v0.0.1
         with:
         ssh_host: ${{ secrets.SSH_BAR_HOST }}
         ssh_user: ${{ secrets.SSH_BAR_USER }}

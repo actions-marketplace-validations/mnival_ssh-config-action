@@ -1,0 +1,40 @@
+name: "Generate SSH Config"
+description: "Generate SSH Config"
+
+inputs:
+  ssh_host:
+    description: "SSH Host"
+    required: true
+  ssh_user:
+    description: "SSH User"
+    required: true
+  ssh_port:
+    description: "SSH Port"
+    required: true
+    default: 22
+  ssh_key:
+    description: "SSH Key"
+    required: true
+
+outputs:
+  ssh_config_host:
+    description: "Name of the host that must be used to connect to this server"
+    value: ${{ steps.ssh.outputs.ssh_config_host }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Generate SSH Config
+      id: ssh
+      shell: bash
+      run: |
+        _SSH_CONFIG_HOST="host-$(cat /proc/sys/kernel/random/uuid)"
+        _SSH_KEY=~/.ssh/${_SSH_CONFIG_HOST}
+        mkdir -p ~/.ssh
+        echo '${{ inputs.ssh_key }}' > ${_SSH_KEY}
+        chmod 600 ${_SSH_KEY}
+        printf "Host ${_SSH_CONFIG_HOST}\n\tHostName ${{ inputs.ssh_host }}\n\tUser ${{ inputs.ssh_user }}\n\tPort ${{ inputs.ssh_port }}\n\tIdentityFile ${_SSH_KEY}\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+        ssh -q ${_SSH_CONFIG_HOST} '
+          echo "Test SSH OK"
+        '
+        echo "ssh_config_host=${_SSH_CONFIG_HOST}" >> ${GITHUB_OUTPUT}

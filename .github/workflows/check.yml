@@ -2,9 +2,11 @@ name: Check action
 
 on:
   push:
-    - main
+    branches:
+      - main
   pull_request:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
   check-action:

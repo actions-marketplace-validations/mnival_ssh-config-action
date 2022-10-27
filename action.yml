@@ -28,7 +28,6 @@ runs:
       id: ssh
       shell: bash
       run: |
-        set -x -v -e
         _SSH_CONFIG_HOST="host-$(cat /proc/sys/kernel/random/uuid)"
         _SSH_KEY=~/.ssh/${_SSH_CONFIG_HOST}
         mkdir -p ~/.ssh

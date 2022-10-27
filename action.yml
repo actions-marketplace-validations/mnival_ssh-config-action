@@ -17,9 +17,9 @@ inputs:
     required: true
 
 outputs:
-  ssh_config_host:
+  ssh_host_alias:
     description: "Name of the host that must be used to connect to this server"
-    value: ${{ steps.ssh.outputs.ssh_config_host }}
+    value: ${{ steps.ssh.outputs.ssh_host_alias }}
 
 runs:
   using: "composite"
@@ -28,13 +28,13 @@ runs:
       id: ssh
       shell: bash
       run: |
-        _SSH_CONFIG_HOST="host-$(cat /proc/sys/kernel/random/uuid)"
-        _SSH_KEY=~/.ssh/${_SSH_CONFIG_HOST}
+        _SSH_HOST_ALIAS="host-$(cat /proc/sys/kernel/random/uuid)"
+        _SSH_KEY=~/.ssh/${_SSH_HOST_ALIAS}
         mkdir -p ~/.ssh
         echo '${{ inputs.ssh_key }}' > ${_SSH_KEY}
         chmod 600 ${_SSH_KEY}
-        printf "Host ${_SSH_CONFIG_HOST}\n\tHostName ${{ inputs.ssh_host }}\n\tUser ${{ inputs.ssh_user }}\n\tPort ${{ inputs.ssh_port }}\n\tIdentityFile ${_SSH_KEY}\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
-        ssh -q ${_SSH_CONFIG_HOST} '
+        printf "Host ${_SSH_HOST_ALIAS}\n\tHostName ${{ inputs.ssh_host }}\n\tUser ${{ inputs.ssh_user }}\n\tPort ${{ inputs.ssh_port }}\n\tIdentityFile ${_SSH_KEY}\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+        ssh -q ${_SSH_HOST_ALIAS} '
           echo "Test SSH OK"
         '
-        echo "ssh_config_host=${_SSH_CONFIG_HOST}" >> ${GITHUB_OUTPUT}
+        echo "ssh_host_alias=${_SSH_HOST_ALIAS}" >> ${GITHUB_OUTPUT}

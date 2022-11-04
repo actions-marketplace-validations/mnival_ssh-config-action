@@ -12,12 +12,12 @@ jobs:
   check-action:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Generate SSH config
-      id: ssh
-      uses: mnival/ssh-action@main
-      with:
-        ssh_host: ${{ secrets.SSH_HOST }}
-        ssh_user: ${{ secrets.SSH_USER }}
-        ssh_key: ${{ secrets.SSH_KEY }}
+      - name: Generate SSH config
+        id: ssh
+        uses: mnival/ssh-action@main
+        with:
+          ssh_host: ${{ secrets.SSH_HOST }}
+          ssh_user: ${{ secrets.SSH_USER }}
+          ssh_key: ${{ secrets.SSH_KEY }}

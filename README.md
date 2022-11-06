@@ -1,4 +1,4 @@
-# SSH Action
+# SSH Config Action
 A github action to setup ssh key and config in the current environment
 
 # Usage
